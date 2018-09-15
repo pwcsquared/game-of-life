@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
+        body {
+            background-color: #212127;
+        }
         .row {
             display: flex
         }
-
         .cell {
             height: 5px;
             width: 5px;
         }
-
         .alive {
             background-color: cornflowerblue;
         }
-
         button {
             display: inline-block;
             padding: 8px 20px;
             font-size: 1.5em;
             margin-bottom: 8px;
             cursor: pointer;
+            background-color: rgb(33, 33, 58);
+            color: rgba(255, 225, 168, .7);
+        }
+        button:focus {
+            outline: none;
         }
     </style>
 </head>
 
 <body>
-    <button onclick="">PREV</button>
+    <button onclick="writeout(previousBoardState, canvasConfig)">PREV</button>
     <button onclick="play(true)">PLAY</button>
-    <button onclick="play(false)updateGame().next()">STOP</button>
+    <button onclick="play(false)">STOP</button>
     <button onclick="updateGame().next()">NEXT</button>
-    <div id="board"></div>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="500" height="500"></canvas>
 
     <script src="game-of-life.js"></script>
 

@@ -61,50 +61,35 @@ const updateGameboard = function() {
     });
 };
 
-const createDOMBoard = function() {
-    var board = document.getElementById('board');
-    gameboard.forEach(function(row) {
-        var div = document.createElement('div');
-        div.classList.add('row');
-        row.forEach(function(elem) {
-            var cell = document.createElement('div');
-            cell.classList.add('cell');
-            div.appendChild(cell);
-        });
-        board.appendChild(div);
-    });
+const canvasConfig = {
+    fillColor: 'dodgerblue',
+    size: 5,
 }
 
-const writeout = function(boardState) {
-    var board = document.getElementById('board');
-    (boardState || gameboard).forEach(function(item, index) {
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = canvasConfig.fillColor;
+
+var writeout = function(boardState, {size}){
+    boardState.forEach(function(item, index) {
         item.forEach(function(_cell, deeperIndex) {
-            if (boardS[index][deeperIndex] === 1) {
-                board.children[index].children[deeperIndex].classList.add('alive');
+            let xPos = index * size;
+            let yPos = deeperIndex * size;
+            if (boardState[index][deeperIndex] === 1) {
+                ctx.fillRect(xPos, yPos, size, size);  // for live cells
             } else {
-                board.children[index].children[deeperIndex].classList.remove('alive')
+                ctx.clearRect(xPos, yPos, size, size); // for dead cells            
             }
         });
     });
 };
-
-var canvasConfig = {
-    fillColor: 'dodgerblue',
-    cellSize: 5,
-}
-
-// var writeout = function(config){
-//     var canvas = document.getElementById('canvas');
-//     canvas.getContext('2d');
-    
-// }
 
 let gameboard = createGameBoard(length);
 
 function* updateGame () {
     while(true) {
         updateGameboard();
-        yield writeout();
+        yield writeout(gameboard, canvasConfig);
     }
 }
 
@@ -117,5 +102,3 @@ function play(shouldPlay) {
         window.clearInterval(intervalID);
     }
 }
-
-createDOMBoard();
