@@ -30,13 +30,15 @@
             outline: none;
         }
     </style>
+
 </head>
 
 <body>
     <button onclick="writeout(previousBoardState, canvasConfig)">PREV</button>
     <button onclick="play(true)">PLAY</button>
-    <button onclick="play(false)">STOP</button>
+    <button onclick="play()">STOP</button>
     <button onclick="updateGame().next()">NEXT</button>
+    <br />
     <canvas id="canvas" width="500" height="500"></canvas>
 
     <script src="game-of-life.js"></script>
