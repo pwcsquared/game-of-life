@@ -1,12 +1,12 @@
 'use strict';
 
-const length = 500;
+const length = 300;
 let previousBoardState = [];
 let gameboard = createGameBoard(length);
 let intervalID;
 const canvasConfig = {
     fillColor: 'dodgerblue',
-    size: 1,
+    size: 3,
 }
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -79,12 +79,19 @@ function updateGameboard() {
     });
 };
 
-function writeout(boardState, {size}){
+function writeout(boardState, {size}, isPrev){
     boardState.forEach(function(item, index) {
         item.forEach(function(_cell, deeperIndex) {
             let xPos = index * size;
             let yPos = deeperIndex * size;
-            if (boardState[index][deeperIndex] !== previousBoardState[index][deeperIndex]){
+            if (isPrev){
+                if (boardState[index][deeperIndex] === 1) {
+                    ctx.fillRect(xPos, yPos, size, size);  // for live cells
+                } else {
+                    ctx.clearRect(xPos, yPos, size, size); // for dead cells            
+                }
+            }
+            else if (boardState[index][deeperIndex] !== previousBoardState[index][deeperIndex]){
                 if (boardState[index][deeperIndex] === 1) {
                     ctx.fillRect(xPos, yPos, size, size);  // for live cells
                 } else {
@@ -96,11 +103,14 @@ function writeout(boardState, {size}){
     });
 };
 
-function* updateGame () {
-    while(true) {
-        updateGameboard();
-        yield writeout(gameboard, canvasConfig);
-    }
+function updateGame () {
+    updateGameboard();
+    writeout(gameboard, canvasConfig, false);
+};
+
+function stepBackwards(){
+    writeout(previousBoardState, canvasConfig, true);
+    gameboard = previousBoardState;
 }
 
 function runGame(){

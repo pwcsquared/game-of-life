@@ -5,7 +5,8 @@
     <title>Document</title>
     <style>
         body {
-            background-color: #212127;
+            background-color: #21212a;
+            padding: 1em;
         }
         .row {
             display: flex
@@ -23,8 +24,6 @@
             font-size: 1.5em;
             margin-bottom: 8px;
             cursor: pointer;
-            background-color: rgb(33, 33, 58);
-            color: rgba(255, 225, 168, .7);
         }
         button:focus {
             outline: none;
@@ -34,10 +33,10 @@
 </head>
 
 <body>
-    <button onclick="writeout(previousBoardState, canvasConfig)">PREV</button>
-    <button onclick="play(true)">PLAY</button>
-    <button onclick="play()">STOP</button>
-    <button onclick="updateGame().next()">NEXT</button>
+    <button onclick="stepBackwards()">Prev</button>
+    <button onclick="play(true)">Play</button>
+    <button onclick="play()">Stop</button>
+    <button onclick="updateGame()">Next</button>
     <br />
     <canvas id="canvas" width="500" height="500"></canvas>
 
